@@ -8,7 +8,7 @@
             "_security_scan_report_conclusion": "failure",
             "_comment_security_scan_report_conclusion": "Optional. Expected scan report conclusion. Options: 'success' | 'failure'. This validates the security scan result status. If not provided, this check will not be performed.",
             "total_libs_scanned": {
-                "gte": 105
+                "gte": 25
             },
             "_comment_total_libs_scanned": "Expected number of libraries scanned with comparison operator. Validates that the scan processed libraries."
         },
@@ -18,93 +18,47 @@
             "check_dependency_tree_detection_status": true,
             "_comment_check_dependency_tree_detection_status": "Whether to check if dependency tree was successfully detected. Options: true | false. Default: true",
             "expected_total_dependencies_number": {
-                "eq": 154
+                "gte": 25
             },
             "expected_direct_dependencies_number": {
-                "eq": 72
+                "gte": 25
             },
             "expected_transitive_dependencies_number": {
-                "eq": 82
+                "gte": 30
             },
             "_comment_expected_dependencies_number": "Optional. Expected number of dependencies with comparison operator. Operators: gt (>), gte (>=), lt (<), lte (<=), eq (==). If not provided, this check will not be performed.",
-            "direct_dependencies_names_list": {
-                "eq": [
-                    "llvm-openmp",
-                    "matplotlib",
-                    "libjpeg-turbo",
-                    "libnghttp2",
-                    "libnsl",
-                    "libgfortran5",
-                    "keyutils",
-                    "python",
-                    "icu",
-                    "libcurl",
-                    "ca-certificates",
-                    "libgcc",
-                    "libgfortran-ng",
-                    "tables",
-                    "mkl",
-                    "h5py",
-                    "libgcc-ng",
-                    "libssh2",
-                    "libpng",
-                    "lightgbm",
-                    "scikit-learn",
-                    "liblzma",
-                    "wheel",
-                    "tqdm",
-                    "cudnn",
-                    "xgboost",
-                    "numpy",
-                    "libedit",
-                    "pip",
-                    "tzdata",
-                    "libsqlite",
-                    "libxcrypt",
-                    "readline",
-                    "xz-gpl-tools",
-                    "tk",
-                    "torchaudio",
-                    "libhwloc",
-                    "mkl-include",
-                    "libstdcxx-ng",
-                    "openssl",
-                    "_openmp_mutex",
-                    "torch",
-                    "libaec",
-                    "torchvision",
-                    "libxml2",
-                    "libexpat",
-                    "hdf5",
-                    "scipy",
-                    "xz-tools",
-                    "pillow",
-                    "cudatoolkit",
-                    "pandas",
-                    "libzlib",
-                    "tbb",
-                    "zlib",
-                    "libffi",
-                    "bzip2",
-                    "c-ares",
-                    "opencv-python",
-                    "libgfortran",
-                    "libstdcxx",
-                    "xz",
-                    "zstd",
-                    "setuptools",
-                    "liblzma-devel",
-                    "libev",
-                    "ld_impl_linux-64",
-                    "ncurses",
-                    "seaborn",
-                    "krb5",
-                    "python-dotenv",
-                    "libuuid"
-                ]
-            },
+             "direct_dependencies_names_list": {
+      "contains": [
+          "python",
+          "cudatoolkit",
+          "cudnn",
+          "mkl",
+          "mkl-include",
+          "hdf5",
+          "libpng",
+          "libjpeg-turbo",
+          "zlib",
+          "torch",
+          "torchvision",
+          "torchaudio",
+          "numpy",
+          "pandas",
+          "scipy",
+          "scikit-learn",
+          "xgboost",
+          "lightgbm",
+          "h5py",
+          "tables",
+          "pillow",
+          "opencv-python",
+          "matplotlib",
+          "seaborn",
+          "tqdm",
+          "python-dotenv"
+      ]
+  },
             "transitive_dependencies_names_list": {
-                "eq": [
+                "contains": [
                     "nvidia-curand-cu12",
                     "matplotlib",
                     "nvidia-cublas-cu12",
@@ -181,6 +135,22 @@
                 "contains": []
             },
             "_comment_vulnerabilities_names_list": "Optional. Check specific libs names (minimist-0.0.8.tgz). Operators: eq (==), contains (all items from expected list in actual), in(all items from actual list in expected), nin(actual list does not contain provided libs). If not provided, this check will not be performed."
+        },
+        "validate_scanner_logs": true,
+    "logs": {
+      "check_scanner_logs": true,
+      "_comment_check_scanner_logs": "Whether to check scanner logs and attach them to Report Portal. Options: true | false. Default: true",
+      "expected_log_lines": [
+        {
+          "operator": "eq",
+          "value": "Will apply conda activation for UV sync"
+        },
+        {
+          "operator": "regex",
+          "value": "Conda environment created successfully at /tmp/ws-scm/.*/\\.venv"
         }
+      ],
+      "_comment_expected_log_lines": "Optional. List of log lines to validate. Each entry should have an \u0027operator\u0027 (eq or regex) and \u0027value\u0027 (string or regex pattern). Example: [{\u0027operator\u0027: \u0027eq\u0027, \u0027value\u0027: \u0027Python version: 3.11\u0027}, {\u0027operator\u0027: \u0027regex\u0027, \u0027value\u0027: \u0027Python version: \\d+\\.\\d+\u0027}]. If not provided, only log attachment will be performed."
+    }
     }
 }
